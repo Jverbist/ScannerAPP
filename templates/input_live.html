@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Input</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .pastel-blue { background-color: #e3f2fd; }
+        .pastel-green { background-color: #e8f5e9; }
+        .pastel-yellow { background-color: #fffde7; }
+        .pastel-pink { background-color: #fce4ec; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Logistics App</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/guide">Guide</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/input">Input Items</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <h1>Live Sorting</h1>
+        <p>Enter item serial numbers below (one per line). The results will update automatically.</p>
+        <textarea id="inputArea" rows="10" class="form-control mb-3" placeholder="Enter serial numbers..."></textarea>
+
+        <div id="results">
+            <!-- Matched tables will be dynamically inserted here -->
+        </div>
+
+        <h2>Unmatched Items</h2>
+        <ul class="list-group" id="unmatchedList">
+            <!-- Unmatched items will be dynamically inserted here -->
+        </ul>
+    </div>
+
+    <script>
+        const inputArea = document.getElementById('inputArea');
+        const resultsDiv = document.getElementById('results');
+        const unmatchedList = document.getElementById('unmatchedList');
+
+        // Pastel colors for tables
+        const pastelColors = ['pastel-blue', 'pastel-green', 'pastel-yellow', 'pastel-pink'];
+
+        inputArea.addEventListener('input', () => {
+            const inputNumbers = inputArea.value.trim().split(/\n/).filter(Boolean);
+
+            fetch('/live-sort', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ input_numbers: inputNumbers }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Clear previous results
+                    resultsDiv.innerHTML = '';
+                    unmatchedList.innerHTML = '';
+
+                    // Populate matched results grouped by POBE
+                    const groupedMatched = data.grouped_matched;
+                    let colorIndex = 0;
+                    for (const [poNumber, items] of Object.entries(groupedMatched)) {
+                        // Create a table for each POBE
+                        const table = document.createElement('table');
+                        table.className = `table table-bordered table-striped ${pastelColors[colorIndex % pastelColors.length]}`;
+                        colorIndex++;
+
+                        // Table header
+                        const thead = table.createTHead();
+                        const headerRow = thead.insertRow();
+                        headerRow.innerHTML = `
+                            <th colspan="3">PO Number: ${poNumber}</th>
+                        `;
+
+                        // Table body
+                        const tbody = table.createTBody();
+                        items.forEach(item => {
+                            const row = tbody.insertRow();
+                            row.innerHTML = `
+                                <td>${item['Serial Number']}</td>
+                                <td>${item['PO Number']}</td>
+                                <td>${item['Item']}</td>
+                            `;
+                        });
+
+                        // Append table to results
+                        resultsDiv.appendChild(table);
+                    }
+
+                    // Populate unmatched results
+                    data.unmatched.forEach(number => {
+                        const li = document.createElement('li');
+                        li.className = 'list-group-item';
+                        li.textContent = number;
+                        unmatchedList.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
+
