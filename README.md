@@ -156,4 +156,4 @@ docker logs <container-id>
 
 
 ## License
-[MIT Licnese](/LICENSE)
+[MIT License](/LICENSE)
