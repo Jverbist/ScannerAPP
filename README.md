@@ -9,6 +9,8 @@ A web application that enables warehouse teams to sort items by their purchase o
 - Display counts for each POBE and unmatched items.
 - Easy deployment using Docker.
 
+  Quick DEMO:
+  ![Alt Text](/static/ScreenRecording2024-12-19at11.41.05-ezgif.com-video-to-gif-converter.gif)
 ---
 
 ## Application Flow
@@ -55,7 +57,7 @@ A web application that enables warehouse teams to sort items by their purchase o
    git clone https://github.com/Jverbist/ScannerAPP.git
    cd ScannerAPP
    ```
-2. Change this piece of code in app.py at the bottom:
+2. Change this piece of code in app.py at the bottom to this:
   ```python
   if __name__ == '__main__':
     app.run(debug=True)
@@ -69,4 +71,7 @@ A web application that enables warehouse teams to sort items by their purchase o
    python app.py
   ```
 5. Access the application `http://127.0.0.1:5000` 
+
+
+
 
