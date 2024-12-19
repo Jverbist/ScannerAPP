@@ -36,6 +36,10 @@ def upload_file():
 def input_items():
     return render_template('input_live.html')
 
+@app.route('/guide', methods=['GET'])
+def guide():
+    return render_template('guide.html')
+
 
 @app.route('/live-sort', methods=['POST'])
 def live_sort():

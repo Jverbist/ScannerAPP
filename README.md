@@ -9,7 +9,7 @@ A web application that enables warehouse teams to sort items by their purchase o
 - Display counts for each POBE and unmatched items.
 - Easy deployment using Docker.
 
-  Quick DEMO:
+  **DEMO** 
   ![Alt Text](/static/ScreenRecording2024-12-19at11.41.05-ezgif.com-video-to-gif-converter.gif)
 ---
 
