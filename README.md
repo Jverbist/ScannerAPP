@@ -129,6 +129,7 @@ A web application that enables warehouse teams to sort items by their purchase o
   ```
 5. Run docker-compose to deploy container:
   ```bash
-    docker-compose up-d
+    docker-compose up -d
   
   ```
+6. Access the application in your browser at `http://<server-ip>`
