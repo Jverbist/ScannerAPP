@@ -51,7 +51,7 @@ A web application that enables warehouse teams to sort items by their purchase o
 ## Installation (Local Development)
 
 1. Clone the repository:
-   ```bash
+  ```bash
    git clone https://github.com/Jverbist/ScannerAPP.git
    cd ScannerAPP
    ```
