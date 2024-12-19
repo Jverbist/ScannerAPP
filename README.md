@@ -55,13 +55,18 @@ A web application that enables warehouse teams to sort items by their purchase o
    git clone https://github.com/Jverbist/ScannerAPP.git
    cd ScannerAPP
    ```
-2. Install dependencies:
+2. Change this piece of code in app.py at the bottom:
+  ```python
+  if __name__ == '__main__':
+    app.run(debug=True)
+  ```
+3. Install dependencies:
   ```bash
    pip install -r requirements
    ```
-3. Run the application locally:
+4. Run the application locally:
   ```bash
    python app.py
   ```
-4. Access the application `http://127.0.0.1:5000` 
+5. Access the application `http://127.0.0.1:5000` 
 
