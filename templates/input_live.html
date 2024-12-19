@@ -66,6 +66,7 @@
 
                     // Populate matched results grouped by POBE
                     const groupedMatched = data.grouped_matched;
+                    const counts = data.counts; // Retrieve counts from the backend
                     let colorIndex = 0;
                     for (const [poNumber, items] of Object.entries(groupedMatched)) {
                         // Create a table for each POBE
@@ -73,11 +74,11 @@
                         table.className = `table table-bordered table-striped ${pastelColors[colorIndex % pastelColors.length]}`;
                         colorIndex++;
 
-                        // Table header
+                        // Table header with count
                         const thead = table.createTHead();
                         const headerRow = thead.insertRow();
                         headerRow.innerHTML = `
-                            <th colspan="3">PO Number: ${poNumber}</th>
+                            <th colspan="3">PO Number: ${poNumber} (Count: ${counts[poNumber]})</th>
                         `;
 
                         // Table body

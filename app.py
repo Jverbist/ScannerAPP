@@ -58,16 +58,21 @@ def live_sort():
         else:
             unmatched.append(number)
 
-    # Group matched items by PO Number
+    # Group matched items by PO Number and count them
     grouped_matched = {}
+    counts = {}
     for item in matched:
         po_number = item["PO Number"]
         if po_number not in grouped_matched:
             grouped_matched[po_number] = []
+            counts[po_number] = 0
         grouped_matched[po_number].append(item)
+        counts[po_number] += 1
 
     return jsonify(
-        {"grouped_matched": grouped_matched, "unmatched": unmatched})
+        {"grouped_matched": grouped_matched, "counts": counts, "unmatched": unmatched}
+    )
+
 
 
 if __name__ == '__main__':
