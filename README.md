@@ -133,3 +133,27 @@ A web application that enables warehouse teams to sort items by their purchase o
   
   ```
 6. Access the application in your browser at `http://<server-ip>`
+
+## Troubleshooting
+#### Issue: "TCP Reset from Server"
+- Endure the Flask app is binding to `0.0.0.0` in `app.py`:
+  ```python
+  app.run(host='0.0.0.0', port=5000)
+  ```
+- Check Docker port mapping:
+  ```bash
+  docker ps
+  ```
+- Open port 80 in the firewall:
+  ```bash
+  sudo ufw allow 80/tcp
+  ```
+#### Log
+To view container logs:
+```bash
+docker logs <container-id>
+```
+
+
+## License
+
