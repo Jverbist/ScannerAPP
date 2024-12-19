@@ -74,4 +74,61 @@ A web application that enables warehouse teams to sort items by their purchase o
 
 
 
+## Installation (Using Docker)
 
+1. On your server create a directory and navigate in the directory:
+  ```bash
+  mkdir logisticsAPP
+  cd logisticsAPP
+  ```
+2. Create and Save Dockerfile:
+  ```bash
+  nano Dockerfile
+  ---------------------------------------------------------------
+  # Use an official Python runtime as a base image
+  FROM python:3.9-slim
+
+  # Set the working directory in the container
+  WORKDIR /app
+
+  # Install system dependencies
+  RUN apt-get update && apt-get install -y --no-install-recommends \
+      git && \
+      apt-get clean && \
+      rm -rf /var/lib/apt/lists/*
+
+  # Clone the repository from GitHub
+  RUN git clone https://github.com/Jverbist/ScannerAPP.git /app
+
+  # Install application dependencies
+  RUN pip install --no-cache-dir -r requirements.txt
+
+  # Expose the application port
+  EXPOSE 5000
+
+  # Run the application
+  CMD ["python", "app.py"]
+
+  ```
+3. Build Docker image:
+  ```bash
+ docker build --no-cache -t logistics-app .  
+  ```
+4. Create and Save **docker-compose.yml**:
+  ```bash
+  nano docker-compose.yml
+  ----------------------------------------------------------------
+  version: "3.8"
+  services:
+    flask-app:
+      image: logistics-app
+      build:
+        context: .
+      ports:
+        - "80:5000"
+  ```
+5. Run docker-compose to deploy container:
+  ```bash
+    docker-compose up-d
+  
+  ```
