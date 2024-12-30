@@ -64,6 +64,9 @@
                     resultsDiv.innerHTML = '';
                     unmatchedList.innerHTML = '';
 
+                    // Extract duplicates for consistent identification
+                    const duplicates = new Set(data.duplicates);
+
                     // Populate matched results grouped by POBE
                     const groupedMatched = data.grouped_matched;
                     const counts = data.counts; // Retrieve counts from the backend
@@ -84,9 +87,10 @@
                         // Table body
                         const tbody = table.createTBody();
                         items.forEach(item => {
+                            const isDuplicate = duplicates.has(item['Serial Number']);
                             const row = tbody.insertRow();
                             row.innerHTML = `
-                                <td>${item['Serial Number']}</td>
+                                <td>${item['Serial Number']}${isDuplicate ? ' (duplicate)' : ''}</td>
                                 <td>${item['PO Number']}</td>
                                 <td>${item['Item']}</td>
                             `;
@@ -109,4 +113,3 @@
     </script>
 </body>
 </html>
-

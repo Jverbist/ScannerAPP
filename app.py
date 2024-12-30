@@ -68,6 +68,7 @@ def live_sort():
                 "Serial Number": number,
                 "PO Number": parsed_data["POBE"][index],
                 "Item": parsed_data["Items"][index],
+                "Duplicate": number in duplicates  # Flag as duplicate if applicable
             })
         elif number not in duplicates:  # Avoid counting duplicates as unmatched
             unmatched.append(number)
