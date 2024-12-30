@@ -50,7 +50,17 @@ def live_sort():
     input_numbers = request.json.get("input_numbers", [])
     matched = []
     unmatched = []
+    duplicates = []
 
+    # Detect duplicates in the input numbers
+    seen = set()
+    for number in input_numbers:
+        if number in seen:
+            duplicates.append(number)
+        else:
+            seen.add(number)
+
+    # Process input numbers
     for number in input_numbers:
         if number in parsed_data["Serial Numbers"]:
             index = parsed_data["Serial Numbers"].index(number)
@@ -59,10 +69,10 @@ def live_sort():
                 "PO Number": parsed_data["POBE"][index],
                 "Item": parsed_data["Items"][index],
             })
-        else:
+        elif number not in duplicates:  # Avoid counting duplicates as unmatched
             unmatched.append(number)
 
-    # Group matched items by PO Number and count them
+    # Group matched items by PO Number
     grouped_matched = {}
     counts = {}
     for item in matched:
@@ -74,7 +84,7 @@ def live_sort():
         counts[po_number] += 1
 
     return jsonify(
-        {"grouped_matched": grouped_matched, "counts": counts, "unmatched": unmatched}
+        {"grouped_matched": grouped_matched, "counts": counts, "unmatched": unmatched, "duplicates": duplicates}
     )
 
 
