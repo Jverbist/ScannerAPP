@@ -73,7 +73,7 @@ def live_sort():
         elif number not in duplicates:  # Avoid counting duplicates as unmatched
             unmatched.append(number)
 
-    # Group matched items by PO Number
+    # Group matched items by PO Number:
     grouped_matched = {}
     counts = {}
     for item in matched:
